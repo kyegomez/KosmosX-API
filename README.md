@@ -1,7 +1,6 @@
 # KosmosX-API
 API for Deploying Kosmos-X
 
-
 # Model Pricing
 
 | MODEL FAMILY | DESCRIPTION | CONTEXT WINDOW | PAY-AS-YOU-GO PRICING | DEDICATED CAPACITY AVAILABLE |
@@ -37,3 +36,24 @@ With pay-as-you-go pricing, you pay only for what you use. There are no upfront 
 For customers with high-volume, steady-state usage, we recommend considering our Dedicated Capacity plans. With dedicated capacity, you reserve inference capacity for your models in return for a significant discount on the on-demand price.
 
 Email `kye@apac.ai` for dedicated capacity.
+
+
+# To do:
+
+* Integrate model wrapper and conversational logic
+
+* Integrate supabase api key tracking
+
+* Add token counters for text and images
+
+* Integrate stripe usage payment tracking based on text and images
+
+* Create Docker Compose
+
+* Create KuberNetes
+
+* Create Terraform config
+
+* Create unit tests
+
+* Create monitoring tests and dashboard
