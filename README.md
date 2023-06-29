@@ -64,3 +64,27 @@ Email `kye@apac.ai` for dedicated capacity.
 `kubectl apply -f kosmosx-api-deployment.yaml`
 
 
+# OPENAI AI MODEL API ARCHITECTURE
+
+OpenAI likely has a complex infrastructure to support the scale and variety of their models. They probably use a combination of technologies, including Docker and Kubernetes, to manage their services. Each model could be wrapped in a FastAPI (or similar) application and deployed as a separate service. This would allow each model to scale independently based on demand.
+
+The OpenAI Python SDK doesn't need to know the specifics of each model's deployment. Instead, it interacts with a unified API provided by OpenAI. This API likely routes requests to the appropriate model based on the model parameter in the API request. The routing could be done through an API gateway or a service mesh, which are common components in microservices architectures.
+
+Here's a simplified example of how the process might work:
+
+The user makes a request to the OpenAI API using the Python SDK. The request includes the model parameter, which specifies the model to use (e.g., "gpt-3.5-turbo").
+
+The OpenAI API receives the request and routes it to the appropriate model service based on the model parameter.
+
+The model service processes the request and returns the response.
+
+The OpenAI API forwards the response back to the Python SDK.
+
+The Python SDK returns the response to the user.
+
+This is a simplified view and the actual process is likely more complex. For example, there might be additional layers for load balancing, caching, error handling, etc. Also, the model services might not directly process the requests, but instead put them in a queue for asynchronous processing.
+
+In terms of how the models and the SDK "talk" to each other, they communicate over HTTP using a RESTful API. The Python SDK sends HTTP requests to the OpenAI API, and the API returns HTTP responses. The requests and responses are formatted as JSON, which is a common data format for RESTful APIs.
+
+Again, this is speculative and based on common practices. The actual details of OpenAI's infrastructure are not publicly available.
+
