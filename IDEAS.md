@@ -543,3 +543,74 @@ CI/CD Integration: Continuous integration and continuous deployment (CI/CD) for 
 
 Persistent Storage: For storing the AI models and other persistent data, you will need a persistent volume that exists across restarts of pods.
 
+n this updated Jenkinsfile:
+
+A 'Test' stage has been added after the 'Build Docker image' stage. You should replace the echo "Running tests..." command with the actual commands to run your tests.
+
+A post section has been added at the end of the pipeline. This section defines actions to take after the pipeline has finished. The failure block is executed if the pipeline fails, and the success block is executed if the pipeline succeeds. You should replace the echo "Build failed!" and echo "Build succeeded!" commands with the actual commands to send notifications.
+
+Please note that handling rollbacks in a Jenkins pipeline can be complex and depends on your specific use case. You might handle rollbacks by keeping old versions of your Docker images and Kubernetes configurations, and adding a stage to the pipeline to revert to these old versions if a failure occurs. However, this would require careful planning and testing to ensure that rollbacks can be performed safely and correctly.
+
+
+
+
+
+--------------------
+Given your Dockerfile and Kubernetes configuration, here's how you might define a Jenkins pipeline for building the Docker image, pushing it to a Docker registry, and updating the Kubernetes Deployment to use the new image:
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t kosmosx-api:latest .'
+            }
+        }
+
+        stage('Push Docker image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                    sh 'docker tag kosmosx-api:latest $DOCKER_USER/kosmosx-api:latest'
+                    sh 'docker push $DOCKER_USER/kosmosx-api:latest'
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh 'kubectl set image deployment/kosmosx-api-deployment kosmosx-api=$DOCKER_USER/kosmosx-api:latest --kubeconfig=$KUBECONFIG'
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            // Add your notification commands here
+            sh 'echo "Build failed!"'
+        }
+
+        success {
+            // Add your notification commands here
+            sh 'echo "Build succeeded!"'
+        }
+    }
+}
+Copy code
+In this Jenkinsfile:
+
+The 'Build Docker image' stage builds the Docker image for the AI model using the Dockerfile in the current directory.
+
+The 'Push Docker image' stage pushes the Docker image to a Docker registry. It uses a Jenkins credential called 'dockerHubCredentials' to authenticate with the Docker registry.
+
+The 'Deploy to Kubernetes' stage updates the Kubernetes Deployment to use the new Docker image. It uses a Jenkins credential called 'kubeconfig' to authenticate with the Kubernetes cluster.
+
+The post section defines actions to take after the pipeline has finished. The failure block is executed if the pipeline fails, and the success block is executed if the pipeline succeeds.
+
+You would need to replace 'dockerHubCredentials' and 'kubeconfig' with your actual Jenkins credential IDs.
+
+Please note that this is a basic example and does not include all the best practices for a production-ready CI/CD pipeline. For example, you might want to add stages for running tests, handling rollbacks, sending notifications, etc. Also, remember to handle sensitive data like API keys or passwords securely.
+

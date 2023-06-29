@@ -63,3 +63,66 @@ Email `kye@apac.ai` for dedicated capacity.
 # Kubernets
 `kubectl apply -f kosmosx-api-deployment.yaml`
 
+
+
+
+# Jenkins
+
+Integrating Jenkins into this setup would involve setting up a Continuous Integration/Continuous Deployment (CI/CD) pipeline. Jenkins would be responsible for building the Docker image for the AI model, pushing it to a Docker registry, and updating the Kubernetes Deployment to use the new image.
+
+Here's a high-level overview of the architecture:
+
+Code Repository: This is where your AI model's code is stored. It could be a Git repository on GitHub, GitLab, Bitbucket, etc.
+
+Jenkins Server: Jenkins watches the code repository for changes. When a change is detected (e.g., when a commit is pushed), Jenkins triggers a new build.
+
+Docker: Jenkins builds a Docker image for the AI model using a Dockerfile in the code repository.
+
+Docker Registry: The Docker image is pushed to a Docker registry (e.g., Docker Hub, AWS ECR, GCR, etc.).
+
+Kubernetes Cluster: The Kubernetes Deployment is updated to use the new Docker image. The Deployment automatically rolls out the update across the cluster.
+
+AWS EKS: The Kubernetes cluster is managed by AWS EKS.
+
+Here's an example of how you might define a Jenkins pipeline for this process:
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t my-ai-model:latest .'
+            }
+        }
+
+        stage('Push Docker image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                    sh 'docker tag my-ai-model:latest $DOCKER_USER/my-ai-model:latest'
+                    sh 'docker push $DOCKER_USER/my-ai-model:latest'
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh 'kubectl set image deployment/ai-model-deployment ai-model=$DOCKER_USER/my-ai-model:latest --kubeconfig=$KUBECONFIG'
+                }
+            }
+        }
+    }
+}
+
+This Jenkinsfile defines a pipeline with three stages:
+
+Build Docker image: This stage builds the Docker image for the AI model using the Dockerfile in the current directory.
+
+Push Docker image: This stage pushes the Docker image to a Docker registry. It uses a Jenkins credential called 'dockerHubCredentials' to authenticate with the Docker registry.
+
+Deploy to Kubernetes: This stage updates the Kubernetes Deployment to use the new Docker image. It uses a Jenkins credential called 'kubeconfig' to authenticate with the Kubernetes cluster.
+
+You would need to replace 'dockerHubCredentials' and 'kubeconfig' with your actual Jenkins credential IDs, and 'my-ai-model' with your actual Docker image name.
+

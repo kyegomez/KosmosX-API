@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Docker image') {
+            steps {
+                sh 'docker build -t kosmosx-api:latest .'
+            }
+        }
+
+        stage('Push Docker image') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHubCredentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'docker login -u $DOCKER_USER -p $DOCKER_PASS'
+                    sh 'docker tag kosmosx-api:latest $DOCKER_USER/kosmosx-api:latest'
+                    sh 'docker push $DOCKER_USER/kosmosx-api:latest'
+                }
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh 'kubectl set image deployment/kosmosx-api-deployment kosmosx-api=$DOCKER_USER/kosmosx-api:latest --kubeconfig=$KUBECONFIG'
+                }
+            }
+        }
+    }
+
+    post {
+        failure {
+            // Add your notification commands here
+            sh 'echo "Build failed!"'
+        }
+
+        success {
+            // Add your notification commands here
+            sh 'echo "Build succeeded!"'
+        }
+    }
+}
