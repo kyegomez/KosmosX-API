@@ -522,3 +522,24 @@ In this setup, Kubernetes will ensure that there are at least 3 and at most 10 r
 Remember to replace `image: kosmosx-api:latest` with the actual path of your Docker image in a Docker registry such as Docker Hub or AWS ECR.
 
 Additionally, please remember that setting up the Kubernetes infrastructure and making it production-ready involves many more steps and configurations, including networking, access control, security, monitoring, logging, and more.
+
+
+
+To reliably deploy multi-modal AI models using Terraform, you will need to consider several requirements. Here's a list of some key requirements:
+
+Infrastructure as Code (IaC): Terraform will be used to manage and provision the cloud resources. This ensures that the infrastructure can be version controlled and reviewed like any other code.
+
+Auto-Scaling: The system should automatically scale up and down based on the load. This can be achieved using Kubernetes Horizontal Pod Autoscaler (HPA) or cloud provider's native auto-scaling feature.
+
+Self-Healing: The system should automatically recover from failures. Kubernetes provides self-healing capabilities by restarting failed containers, rescheduling containers when nodes die, and killing containers that don’t respond to health checks.
+
+Load Balancing: To distribute network traffic across multiple servers to ensure no single server bears too much demand.
+
+Security: Implement proper security measures, such as using secrets for sensitive data, limiting access with role-based access control (RBAC), and using secure network policies.
+
+Monitoring and Logging: Implement a robust logging and monitoring system to track the system's health and performance.
+
+CI/CD Integration: Continuous integration and continuous deployment (CI/CD) for automatic deployment and updates of the AI models.
+
+Persistent Storage: For storing the AI models and other persistent data, you will need a persistent volume that exists across restarts of pods.
+
