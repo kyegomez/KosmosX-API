@@ -201,3 +201,54 @@ async def delete_account(username: str, password: str):
 
 Please note that this code has not been tested and is meant as a starting point. You'll need to adapt it for your specific use case and thoroughly test it before deployment. Always make sure to protect sensitive user data and comply with all relevant laws and regulations. For example, you might want to add email verification during registration, and secure HTTPS connections should be used for all interactions with the API.
 
+
+
+
+Sure, here is the revised Dockerfile that skips model download during image creation and git cloning. It also leaves placeholders for environment variables:
+
+```Dockerfile
+# Use PyTorch as base image
+FROM nvcr.io/nvidia/pytorch:22.10-py3
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the requirements file into the container
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install -r requirements.txt
+
+# Install the packages:
+RUN bash vl_setup_xl.sh
+
+# Install gradio
+RUN pip install gradio
+
+# Copy the current directory contents into the container
+COPY . .
+
+# Make port 80 available to the world outside this container
+EXPOSE 80
+
+# Set environment variable placeholders. You'll pass the actual values at runtime.
+ENV SUPABASE_URL=your_supabase_url
+ENV SUPABASE_KEY=your_supabase_key
+ENV STRIPE_API=your_stripe_api
+
+# Run the command to start uWSGI
+CMD ["uwsgi", "app.ini"]
+```
+
+You will need to pass the actual values for `SUPABASE_URL`, `SUPABASE_KEY`, and `STRIPE_API` as environment variables when running your Docker container. You can do this using the `-e` flag:
+
+```bash
+docker run -p 80:80 \
+  -e SUPABASE_URL=your_supabase_url \
+  -e SUPABASE_KEY=your_supabase_key \
+  -e STRIPE_API=your_stripe_api \
+  -v /path/to/model:/app/model \
+  my-api-image
+```
+
+In this command, `/path/to/model` should be the path on your host where the model file is stored, and `/app/model` is the path inside the Docker container where you want the model to be mounted. Adjust these paths as necessary to suit your setup. Make sure that your application looks for the model in the correct directory inside the Docker container (`/app/model` in this example).
