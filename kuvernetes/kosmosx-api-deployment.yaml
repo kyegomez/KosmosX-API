@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kosmosx-api-deployment
+  labels:
+    app: kosmosx-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kosmosx-api
+  template:
+    metadata:
+      labels:
+        app: kosmosx-api
+    spec:
+      containers:
+      - name: kosmosx-api
+        image: kosmosx-api:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+        - name: model-volume
+          mountPath: /app/model
+        env:
+        - name: SUPABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: kosmosx-api-secrets
+              key: SUPABASE_URL
+        - name: SUPABASE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: kosmosx-api-secrets
+              key: SUPABASE_KEY
+        - name: STRIPE_API
+          valueFrom:
+            secretKeyRef:
+              name: kosmosx-api-secrets
+              key: STRIPE_API
+      volumes:g
+      - name: model-volume
+        persistentVolumeClaim:
+          claimName: model-volume-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kosmosx-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: kosmosx-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000

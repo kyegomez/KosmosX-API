@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  kosmosx-api:
+    image: kosmosx-api
+    restart: always
+    environment:
+      - SUPABASE_URL=<YOUR_SUPABASE_URL>
+      - SUPABASE_KEY=<YOUR_SUPABASE_KEY>
+      - STRIPE_API=<YOUR_STRIPE_API_KEY>
+    volumes:
+      - type: bind
+        source: /path/to/model
+        target: /app/KosmosX-API/model
+    ports:
+      - 8000:8000
+    networks:
+      - kosmosx-net
+
+networks:
+  kosmosx-net:
+    name: kosmosx-net
+
+
+
+#docker-compose up -d
+#docker-compose up -d --scale kosmosx-api=5

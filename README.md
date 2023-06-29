@@ -57,3 +57,9 @@ Email `kye@apac.ai` for dedicated capacity.
 * Create unit tests
 
 * Create monitoring tests and dashboard
+
+
+
+# Kubernets
+`kubectl apply -f kosmosx-api-deployment.yaml`
+
