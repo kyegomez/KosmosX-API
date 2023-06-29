@@ -1,0 +1,4 @@
+fastapi
+supabase
+jose
+stripe
