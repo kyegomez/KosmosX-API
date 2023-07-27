@@ -389,11 +389,13 @@ class TestInfinitePermutationSourceIterator(TestBase):
                     self.assertEqual(result, expected_result)
 
     def test_empty_source(self):
-        f = lambda: InfinitePermutationSourceIterator([])
+        def f():
+            return InfinitePermutationSourceIterator([])
         self.assertRaises(ValueError, f)
 
     def test_rank_too_large(self):
-        f = lambda: InfinitePermutationSourceIterator([1], num_instances=2, instance_rank=2)
+        def f():
+            return InfinitePermutationSourceIterator([1], num_instances=2, instance_rank=2)
         self.assertRaises(ValueError, f)
 
 
@@ -424,7 +426,7 @@ class TestChunkedSourceIterator(TestBase, TestFiniteIteratorMixin, TestFiniteIte
 
     def test_rank_too_large(self):
         def create_iterator():
-            it = ChunkedSourceIterator([1], num_instances=2, instance_rank=2)
+            ChunkedSourceIterator([1], num_instances=2, instance_rank=2)
 
         self.assertRaises(ValueError, create_iterator)
 
@@ -509,7 +511,8 @@ class TestPrefetchIterator(TestBase, TestFiniteIteratorMixin, TestFiniteIterator
                 self.test_cases.append(("n={}, buffer_size={}".format(n, buffer_size), data, it))
 
     def test_zero_buffer_size(self):
-        f = lambda: PrefetchIterator(NativeCheckpointableIterator([0]), buffer_size=0)
+        def f():
+            return PrefetchIterator(NativeCheckpointableIterator([0]), buffer_size=0)
         self.assertRaises(ValueError, f)
 
     def test_torch_tensors(self):
@@ -533,7 +536,8 @@ class TestPrefetchIteratorExperimental(TestBase, TestFiniteIteratorMixin, TestFi
                 self.test_cases.append(("n={}, buffer_size={}".format(n, buffer_size), data, it))
 
     def test_zero_buffer_size(self):
-        f = lambda: PrefetchIterator(NativeCheckpointableIterator([0]), buffer_size=0, buffer_in_main_process=True)
+        def f():
+            return PrefetchIterator(NativeCheckpointableIterator([0]), buffer_size=0, buffer_in_main_process=True)
         self.assertRaises(ValueError, f)
 
     def test_closing(self):
@@ -541,9 +545,11 @@ class TestPrefetchIteratorExperimental(TestBase, TestFiniteIteratorMixin, TestFi
             return  # dummy iterator used, skip test
         it = PrefetchIterator(NativeCheckpointableIterator([0]), buffer_size=42, buffer_in_main_process=True)
         it.close()
-        f = lambda: it.__next__()
+        def f():
+            return it.__next__()
         self.assertRaises(RuntimeError, f)
-        f = lambda: it.setstate(None)
+        def f():
+            return it.setstate(None)
         self.assertRaises(RuntimeError, f)
 
     def test_nested(self):
@@ -642,7 +648,8 @@ class TestFixedBatchIterator(TestBase, TestFiniteIteratorMixin, TestFiniteIterat
                 self.test_cases.append(("n={}, batch_size={}".format(n, batch_size), expected_result, it))
 
     def test_invalid_batch_size(self):
-        f = lambda: FixedBatchIterator(NativeCheckpointableIterator([0]), batch_size=0)
+        def f():
+            return FixedBatchIterator(NativeCheckpointableIterator([0]), batch_size=0)
         self.assertRaises(ValueError, f)
 
 

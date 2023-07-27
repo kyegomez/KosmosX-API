@@ -1,9 +1,6 @@
 from dataclasses import dataclass, field
-from typing import Optional
-from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 
 import logging
-import numpy as np
 import copy 
 
 import torch
@@ -12,11 +9,9 @@ import torch.nn.functional as F
 
 from fairseq import checkpoint_utils
 from fairseq import utils
-from fairseq.data import Dictionary
-from fairseq.utils import safe_getattr, safe_hasattr
+from fairseq.utils import safe_getattr
 
 
-from fairseq.modules import LayerNorm
 from fairseq.models import (
   BaseFairseqModel,
   register_model,
@@ -25,21 +20,15 @@ from fairseq.models import (
 from fairseq.models.roberta import (
     roberta_large_architecture,
     roberta_base_architecture,
-    RobertaEncoder,
     RobertaModel,
 )
 from fairseq.models.transformer_lm import (
-  TransformerLanguageModelConfig,
-  TransformerLanguageModel,
   base_gpt3_architecture,
 )
 from unilm.models.connector import build_connector
 from unilm.models.gpt import GPTmodel, GPTModelConfig
 
-from torchscale.architecture.config import EncoderConfig
-from torchscale.model.BEiT3 import BEiT3
 
-import pdb
 
 logger = logging.getLogger(__name__)
 
@@ -195,7 +184,7 @@ class UniGPTmodel(BaseFairseqModel):
         if hasattr(task, "all_dict"):
             task.dictionary = task.all_dict
         gpt_model = GPTmodel.build_model(args, task)
-        logger.info("gpt args is".format(args))
+        logger.info("gpt args is".format())
 
         text_model, text_connector = cls.load_text_model(args, task)
         img_model, img_connector = cls.load_image_model(args, task)

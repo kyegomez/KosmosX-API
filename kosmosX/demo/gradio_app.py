@@ -9,7 +9,6 @@ Translate raw text with a trained model. Batches data on-the-fly.
 import sys
 sys.path.append( '.' )
 
-import unilm
 
 import ast
 import logging
@@ -18,7 +17,6 @@ import os
 import sys
 import time
 import re
-import random
 from argparse import Namespace
 from collections import namedtuple
 
@@ -228,8 +226,7 @@ def main(cfg: FairseqConfig):
     if isinstance(cfg, Namespace):
         cfg = convert_namespace_to_omegaconf(cfg)
 
-    start_time = time.time()
-    total_translate_time = 0
+    time.time()
 
     utils.import_user_module(cfg.common)
 
@@ -286,7 +283,7 @@ def main(cfg: FairseqConfig):
         model.prepare_for_inference_(cfg)
 
     # Initialize generator
-    generator = task.build_generator(models, cfg.generation)
+    task.build_generator(models, cfg.generation)
 
     # Handle tokenization and BPE
     tokenizer = task.build_tokenizer(cfg.tokenizer)
@@ -479,7 +476,7 @@ def main(cfg: FairseqConfig):
                 image_input = gr.Image(type="pil", label="Test Image")  
                 text_input = gr.Radio(["Brief", "Detailed"], label="Description Type", value="Brief")
                 do_sample = gr.Checkbox(label="Enable Sampling", info="(Please enable it before adjusting sampling parameters below)", value=False)
-                with gr.Accordion("Sampling parameters", open=False) as sampling_parameters:
+                with gr.Accordion("Sampling parameters", open=False):
                     sampling_topp = gr.Slider(minimum=0.1, maximum=1, step=0.01, value=0.9, label="Sampling: Top-P") 
                     sampling_temperature = gr.Slider(minimum=0.1, maximum=1, step=0.01, value=0.7, label="Sampling: Temperature") 
 

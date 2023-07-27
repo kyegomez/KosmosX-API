@@ -3,7 +3,6 @@ import logging
 import os
 
 from dataclasses import dataclass, field
-from typing import Optional
 
 import numpy as np
 import torch
@@ -13,27 +12,20 @@ from fairseq.data import (
     AppendTokenDataset,
     Dictionary,
     IdDataset,
-    LMContextWindowDataset,
-    MonolingualDataset,
     NestedDictionaryDataset,
     NumelDataset,
     PadDataset,
-    PrependTokenDataset,
     StripTokenDataset,
     TokenBlockDataset,
-    RawLabelDataset,
-    TruncatedDictionary,
-    data_utils,
 )
 from fairseq import utils
-from fairseq.tasks import FairseqDataclass, FairseqTask, register_task
+from fairseq.tasks import register_task
 from fairseq.tasks.language_modeling import LanguageModelingConfig, LanguageModelingTask
-from fairseq.data import Dictionary, data_utils
+from fairseq.data import Dictionary
 from omegaconf import II
-from fairseq import metrics, search, tokenizer, utils
-from unilm.data.utils import SPECIAL_SYMBOLS, add_location_symbols
+from fairseq import utils
+from unilm.data.utils import add_location_symbols
 
-import pdb
 
 logger = logging.getLogger(__name__)
 

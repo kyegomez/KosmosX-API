@@ -210,17 +210,14 @@ It is mainly intended for demonstration and debugging purposes.
 from abc import abstractmethod
 import collections
 import copy
-import gzip
-from itertools import cycle, islice
+from itertools import islice
 import logging
-import math
 import multiprocessing
 import os
 import queue
 from random import Random
 import threading
-import time
-from typing import Any, Callable, Dict, Generator, Iterable, Iterator, List, Optional, Tuple, Union, cast
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Optional, Tuple, Union, cast
 
 logger = logging.getLogger(__name__)
 
@@ -425,7 +422,7 @@ class InfinitePermutationSourceIterator(CheckpointableIterator):
         self._random = None  # this will trigger the lazy initialization in self.__next__
 
     def __next__(self):
-        if self._random == None:
+        if self._random is None:
             # lazy initialization
             self._random = Random(self._seed)
             if self._random_state is not None:

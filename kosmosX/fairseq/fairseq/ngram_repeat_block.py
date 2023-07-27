@@ -4,7 +4,7 @@
 """ Wrapper for ngram_repeat_block cuda extension """
 import math
 import warnings
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import torch
 from torch import nn

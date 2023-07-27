@@ -41,7 +41,6 @@ from .unfold import unfold1d
 from .transformer_layer import TransformerDecoderLayer, TransformerEncoderLayer
 from .vggblock import VGGBlock
 from .espnet_multihead_attention import (
-    ESPNETMultiHeadedAttention,
     RelPositionMultiHeadedAttention,
     RotaryPositionMultiHeadedAttention,
 )

@@ -10,7 +10,6 @@ import sentencepiece as spm
 from fairseq.data.dictionary import Dictionary
 from wild_loader import WildLoader
 
-import tqdm
 
 
 def image_code_to_token(code):

@@ -25,7 +25,6 @@ from fairseq.modules import transformer_layer
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
 from fairseq.modules.quant_noise import quant_noise as apply_quant_noise_
 from torch import Tensor
-import numpy as np
 
 
 # rewrite name for backward compatibility in `make_generation_fast_`

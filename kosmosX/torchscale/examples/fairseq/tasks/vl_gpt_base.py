@@ -5,8 +5,8 @@ import torch
 
 from fairseq import utils
 from fairseq.data import Dictionary
-from fairseq.tasks import FairseqTask, register_task
-from fairseq.tasks.language_modeling import LanguageModelingTask, LanguageModelingConfig
+from fairseq.tasks import register_task
+from fairseq.tasks.language_modeling import LanguageModelingTask
 from fairseq.data.encoders.gpt2_bpe import GPT2BPE
 from dataclasses import dataclass, field
 import sentencepiece
@@ -16,7 +16,7 @@ from .data.laion_loader import LaionLoader
 from .data.wild_loader import WildLoader
 from .data.utils import EOL_SYMBOL, BOI_SYMBOL, EOI_SYMBOL, image_code_to_token
 from .data.basic_loader import ConcatLoader
-from .gpt_base import GPTLanguageModelingConfig, GPTPretrainingTask
+from .gpt_base import GPTLanguageModelingConfig
 
 DEFAULT_ENCODER_JSON = "https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/encoder.json"
 DEFAULT_VOCAB_BPE = "https://dl.fbaipublicfiles.com/fairseq/gpt2_bpe/vocab.bpe"

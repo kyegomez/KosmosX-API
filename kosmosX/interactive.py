@@ -1,4 +1,3 @@
-import unilm
 
 from fairseq_cli.interactive import cli_main
 

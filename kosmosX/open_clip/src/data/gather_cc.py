@@ -5,7 +5,6 @@ from io import BytesIO
 import numpy as np
 import PIL
 from PIL import Image
-import pickle
 import sys
 
 

@@ -1,8 +1,6 @@
 # Copyright (c) 2022 Microsoft
 # Licensed under The MIT License [see LICENSE for details]
 
-import numpy as np
-from scipy.optimize import minimize
 
 import torch
 import torch.nn as nn

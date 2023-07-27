@@ -9,7 +9,6 @@ import json
 import sentencepiece as spm
 # from fairseq.data.dictionary import Dictionary
 # from laion_loader import LaionLoader
-import tqdm
 def image_code_to_token(code):
     return "<image{}>".format(code)
 

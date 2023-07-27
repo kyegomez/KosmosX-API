@@ -1,10 +1,6 @@
 import os
-import sys
-from pathlib import Path
 import textwrap
-import re
 
-import ast
 import os
 import numpy as np
 import torch
@@ -16,8 +12,6 @@ import matplotlib.pylab as pylab
 pylab.rcParams['figure.figsize'] = 20, 12
 
 import cv2
-import base64
-import io
 
 from decode_string import decode_bbox_from_caption
 
@@ -155,7 +149,7 @@ def draw_entity_box_on_image(image, collect_entity_location):
     return new_image  
 
 
-def visualize_results_on_image(img_path, caption, quantized_size=16, save_path=f"show_box_on_image.jpg", show=True):
+def visualize_results_on_image(img_path, caption, quantized_size=16, save_path="show_box_on_image.jpg", show=True):
     # collect_entity_location = decode_phrase_with_bbox_from_caption(caption, quantized_size=quantized_size)
     collect_entity_location = decode_bbox_from_caption(caption, quantized_size=quantized_size)
     image = draw_entity_box_on_image(img_path, collect_entity_location)

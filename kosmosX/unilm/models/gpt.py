@@ -1,21 +1,14 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
-from fairseq.dataclass import ChoiceEnum, FairseqDataclass
+from typing import Optional
 from torch import Tensor
 
-import logging
 
 import torch
-import torch.nn as nn
-import torch.nn.functional as F
 
-from fairseq import distributed_utils, utils
-from fairseq import checkpoint_utils
-from fairseq import utils
-from fairseq.utils import safe_getattr, safe_hasattr
+from fairseq import distributed_utils
+from fairseq.utils import safe_getattr
 
 from fairseq.models import (
-  BaseFairseqModel,
   register_model,
   register_model_architecture,
 )
@@ -24,14 +17,12 @@ from fairseq.models.transformer_lm import (
   TransformerLanguageModel,
   base_gpt3_architecture,
 )
-from fairseq.models.transformer.transformer_decoder import TransformerDecoder
 from fairseq.models import (
     FairseqIncrementalDecoder,
-    FairseqLanguageModel,
     register_model,
     register_model_architecture,
 )
-from fairseq.models.transformer import DEFAULT_MIN_PARAMS_TO_WRAP, Embedding
+from fairseq.models.transformer import Embedding
 from fairseq.modules import PositionalEmbedding
 from omegaconf import II
 

@@ -1,10 +1,7 @@
 import json
 import os
-import multiprocessing
-import itertools
 
 from infinibatch import iterators
-from functools import partial
 from .lm_loader import LMLoader
 from .utils import NativeCheckpointableIterator, WeightIterator, EOL_SYMBOL
 from fairseq.data.encoders.gpt2_bpe import GPT2BPE

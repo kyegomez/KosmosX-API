@@ -162,8 +162,10 @@ def main():
     if args.train_data:
         assert not args.trace, 'Cannot train with traced model'
 
-        exclude = lambda n, p: p.ndim < 2 or "bn" in n or "ln" in n or "bias" in n or 'logit_scale' in n
-        include = lambda n, p: not exclude(n, p)
+        def exclude(n, p):
+            return p.ndim < 2 or 'bn' in n or 'ln' in n or 'bias' in n or 'logit_scale' in n
+        def include(n, p):
+            return not exclude(n, p)
 
         named_parameters = list(model.named_parameters())
         gain_or_bias_params = [p for n, p in named_parameters if exclude(n, p) and p.requires_grad]
@@ -279,7 +281,7 @@ def main():
             if args.save_most_recent:
                 torch.save(
                     checkpoint_dict,
-                    os.path.join(args.checkpoint_path, f"epoch_latest.pt"),
+                    os.path.join(args.checkpoint_path, "epoch_latest.pt"),
                 )
 
     if args.wandb and is_master(args):

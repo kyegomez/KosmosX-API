@@ -6,7 +6,6 @@
 """
 Train a new model on one or across multiple GPUs.
 """
-import unilm
 
 import argparse
 import logging

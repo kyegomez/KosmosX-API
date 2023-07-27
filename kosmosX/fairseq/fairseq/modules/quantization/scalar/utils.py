@@ -71,7 +71,7 @@ def quantize_model_(
             continue
 
         # activation quantization
-        a_q = ActivationQuantizer(quantized_module, p=0, bits=bits, method=method)
+        ActivationQuantizer(quantized_module, p=0, bits=bits, method=method)
 
         # replace layer by its quantized counterpart
         attrsetter(layer)(model, quantized_module)

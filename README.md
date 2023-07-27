@@ -88,3 +88,29 @@ In terms of how the models and the SDK "talk" to each other, they communicate ov
 
 Again, this is speculative and based on common practices. The actual details of OpenAI's infrastructure are not publicly available.
 
+
+
+
+In an AWS context, the infrastructure for deploying and managing AI models could be set up using a combination of various AWS services along with Terraform for infrastructure provisioning and Jenkins for CI/CD. Here's a simplified view of how it might work:
+
+AWS ECR (Elastic Container Registry): This is where your Docker images would be stored. Each time you update your AI model and the corresponding Docker image, you would push the updated image to ECR.
+
+AWS EKS (Elastic Kubernetes Service): This is the managed Kubernetes service where your AI models (wrapped in Docker containers) would be deployed. Each model could be deployed as a separate service within the EKS cluster.
+
+AWS Route 53 or ALB (Application Load Balancer): This could serve as the entry point for all API requests. It could route incoming requests to the appropriate service in the EKS cluster based on the model parameter in the API request.
+
+AWS RDS or DynamoDB: This could be used to store metadata about each model, such as its name, version, and the endpoint of the service in the EKS cluster.
+
+Terraform: This would be used to provision and manage all the AWS resources. The Terraform scripts would define the desired state of your infrastructure, and Terraform would ensure that the actual state matches the desired state.
+
+Jenkins: This would be used for CI/CD. Whenever you update your AI model, Jenkins would build a new Docker image, push it to ECR, and update the corresponding service in the EKS cluster to use the new image.
+
+In terms of how the OpenAI Python SDK fits into this, you would need to develop a similar SDK for your API. This SDK would provide a simple interface for users to interact with your API. It would handle things like making HTTP requests to the API, authenticating with the API, and parsing the API responses.
+
+When a user makes a request using the SDK, the request would be sent to the API endpoint (managed by Route 53 or ALB), which would route the request to the appropriate service in the EKS cluster based on the model parameter. The service would process the request and return the response, which would be forwarded back to the user by the SDK.
+
+This is a high-level overview and the actual implementation could be more complex, depending on your specific requirements. Also, remember to handle sensitive data like API keys or passwords securely, for example by using AWS Secrets Manager or storing them securely in environment variables.
+
+Now integrate all of 
+
+AthenaThanks for becoming an alpha build user, email kye@apac.ai with all complaints

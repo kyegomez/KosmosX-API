@@ -203,7 +203,7 @@ class SequenceGenerator(nn.Module):
             ],
         )
         net_input = sample["net_input"]
-        prefix_tokens_with_bos = prefix_tokens.clone()
+        prefix_tokens.clone()
         prefix_tokens = prefix_tokens[:, 1:]
 
         if "src_tokens" in net_input:
@@ -345,12 +345,11 @@ class SequenceGenerator(nn.Module):
                     # input: [B, D] -> [B, Beam Size, D]
                     img_token_size = sample['net_input']['img_src_tokens'].size()
                     if len(img_token_size) == 5: # few-shot setting, [B, K-shot, D(3, 244, 244)]
-                        bsz_val = img_token_size[0]
-                        k_shot_val = img_token_size[1]
+                        img_token_size[0]
+                        img_token_size[1]
                         img_tokens = sample['net_input']['img_src_tokens'].cuda().view(-1, *img_token_size[2:]) 
                     else:
-                        bsz_val = img_token_size[0]
-                        k_shot_val = 1
+                        img_token_size[0]
                         img_tokens = sample['net_input']['img_src_tokens'].cuda()
                         
                     multimodal_infer = True

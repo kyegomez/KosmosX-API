@@ -1,9 +1,6 @@
-import os
-import gzip
-from sre_parse import SPECIAL_CHARS
 import numpy as np
 from random import Random
-from typing import Any, Callable, Dict, Generator, Iterable, Iterator, List, Optional, Tuple, Union
+from typing import Dict, Iterable, Optional
 import collections
 from infinibatch import iterators
 

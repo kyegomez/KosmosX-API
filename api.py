@@ -1,22 +1,16 @@
-from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.security import APIKeyHeader
 from pydantic import BaseModel
 
-from typing import Any, Dict, Optional
+from typing import Optional
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 
 from slowapi.errors import RateLimitExceeded
 from kosmos_model import ModelWrapper  # this is your model wrapper
-from fastapi.testclient import TestClient  # for testing
 
 from supabase_py import create_client, SupabaseClient
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from fastapi_login.exceptions import InvalidCredentialsException
 
-from jose import JWTError, jwt
-from passlib.context import CryptContext
-from datetime import datetime, timedelta
 import logging
 
 import uuid
@@ -144,7 +138,7 @@ async def completion(query: Query, image: UploadFile = File(None), api_key: str 
 async def register(username: str, password: str):
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
     api_key = str(uuid.uuid4())
-    user = supabase.table('users').insert({'username': username, 'password': hashed_password, 'api_key': api_key}).execute()
+    supabase.table('users').insert({'username': username, 'password': hashed_password, 'api_key': api_key}).execute()
     return {'api_key': api_key}
 
 # API key rotation endpoint

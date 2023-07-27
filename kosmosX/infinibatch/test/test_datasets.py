@@ -77,7 +77,8 @@ class Test_chunked_dataset_iterator(TestBase):
         self.assertListEqual(items, self.flattened_test_data)
 
     def test_transform(self):
-        transform = lambda s: s + "!"
+        def transform(s):
+            return s + "!"
         modified_test_data = [transform(s) for s in self.flattened_test_data]
         items = list(
             itertools.islice(

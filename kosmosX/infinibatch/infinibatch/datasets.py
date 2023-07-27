@@ -1,6 +1,5 @@
 from .iterators import create_source_iterator, CheckpointableIterator, SelectManyIterator, PrefetchIterator, BufferedShuffleIterator, BlockwiseShuffleIterator, MapIterator
-from typing import List, Union, Iterable, Iterator, Callable, Any, Optional, Dict
-import os, sys
+from typing import List, Iterator, Callable, Any, Optional
 
 """
 This module contains common datasets, which are implemented as convenience functions that compose underlying Infinibatch iterators.

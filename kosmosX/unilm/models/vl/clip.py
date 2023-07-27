@@ -3,11 +3,11 @@ import os
 import torch
 
 from copy import deepcopy
-from typing import Tuple, Union, Callable, Optional
+from typing import Callable
 from torch import nn
 from torch.nn import functional as F
-from open_clip.model import CLIP, CLIPVisionCfg, QuickGELU, TimmModel, ModifiedResNet, VisualTransformer, to_2tuple, LayerNorm, Transformer
-from open_clip.factory import _MODEL_CONFIGS, list_models, load_checkpoint, get_pretrained_url, download_pretrained, load_state_dict
+from open_clip.model import CLIPVisionCfg, QuickGELU, TimmModel, ModifiedResNet, to_2tuple, LayerNorm, Transformer
+from open_clip.factory import _MODEL_CONFIGS, list_models, get_pretrained_url, download_pretrained, load_state_dict
 
 
 logger = logging.getLogger(__name__)

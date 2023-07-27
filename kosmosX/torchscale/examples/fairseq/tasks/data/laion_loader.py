@@ -1,13 +1,10 @@
 import json
 import os
-import multiprocessing
-import itertools
 import random
 
 from infinibatch import iterators
-from functools import partial
 from tasks.data.lm_loader import LMLoader
-from tasks.data.utils import NativeCheckpointableIterator, WeightIterator, EOL_SYMBOL, BOI_SYMBOL, EOI_SYMBOL, image_code_to_token
+from tasks.data.utils import NativeCheckpointableIterator, WeightIterator, BOI_SYMBOL, EOI_SYMBOL, image_code_to_token
 from fairseq.data.encoders.gpt2_bpe import GPT2BPE
 
 

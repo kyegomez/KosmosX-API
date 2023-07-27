@@ -1,19 +1,11 @@
-import glob
 import os
-import torch
 import numpy as np
-import time
 import json
-import random
-import itertools
-import hydra
-import copy
-from omegaconf import DictConfig, OmegaConf
 
 from infinibatch import iterators
 from .basic_loader import BaseBatchGen
-from .utils import NativeCheckpointableIterator, WeightIterator, EOL_SYMBOL
-from .utils import safe_getattr, safe_hasattr
+from .utils import EOL_SYMBOL
+from .utils import safe_getattr
 
 
 class LMLoader(BaseBatchGen):

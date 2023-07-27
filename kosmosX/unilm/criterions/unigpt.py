@@ -2,9 +2,8 @@ from dataclasses import dataclass, field
 import math
 from omegaconf import II
 
-import torch
 import torch.nn.functional as F
-from fairseq import metrics, modules, utils
+from fairseq import metrics, utils
 from fairseq.criterions import FairseqCriterion, register_criterion
 from fairseq.dataclass import FairseqDataclass
 

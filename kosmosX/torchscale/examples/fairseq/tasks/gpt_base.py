@@ -5,7 +5,7 @@ import torch
 
 from fairseq import utils
 from fairseq.data import Dictionary
-from fairseq.tasks import FairseqTask, register_task
+from fairseq.tasks import register_task
 from fairseq.tasks.language_modeling import LanguageModelingTask, LanguageModelingConfig
 from fairseq.data.encoders.gpt2_bpe import GPT2BPE
 from dataclasses import dataclass, field

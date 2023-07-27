@@ -70,9 +70,9 @@ def main(cfg: FairseqConfig) -> None:
 
     if distributed_utils.is_master(cfg.distributed_training) or ds_local_master:
         checkpoint_utils.verify_checkpoint_directory(cfg.checkpoint.save_dir, rank=torch.distributed.get_rank())
-        ckp_copy_thread = ThreadPool(processes=1)
+        ThreadPool(processes=1)
     else:
-        ckp_copy_thread = None
+        pass
     # if distributed_utils.is_master(cfg.distributed_training):
     #     checkpoint_utils.verify_checkpoint_directory(cfg.checkpoint.save_dir)
 

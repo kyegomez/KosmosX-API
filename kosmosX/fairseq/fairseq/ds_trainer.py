@@ -9,21 +9,18 @@ import time
 import logging
 import deepspeed
 import json
-import subprocess
 
 from typing import Any, Dict, List
 from itertools import chain
 from argparse import Namespace
 import torch.distributed as dist
 
-from fairseq import checkpoint_utils, models, optim, utils
+from fairseq import optim, utils
 from fairseq.distributed import utils as distributed_utils
 from fairseq.dataclass.configs import FairseqConfig
 from fairseq.logging import meters, metrics
 from fairseq.optim import lr_scheduler
 from fairseq.optim.dynamic_loss_scaler import DynamicLossScaler
-from fairseq.trainer import Trainer
-from fairseq.file_io import PathManager
 
 from omegaconf import OmegaConf
 
@@ -861,7 +858,6 @@ class DeepSpeedTrainer(object):
         extra_state, self._optim_history, last_optim_state = None, [], None
 
         logger.info(f"Preparing to load checkpoint {filename}")
-        is_distributed = self.data_parallel_world_size > 1
         bexists = os.path.isdir(filename) #PathManager.isfile(filename)
         if not bexists:
             logger.info("No existing checkpoint found {}".format(filename))

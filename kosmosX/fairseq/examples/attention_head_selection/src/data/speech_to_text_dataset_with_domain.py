@@ -12,7 +12,6 @@ import torch
 from fairseq.data import (
     ConcatDataset,
     Dictionary,
-    FairseqDataset,
     ResamplingDataset
 )
 from fairseq.data.audio.data_cfg import S2TDataConfig
